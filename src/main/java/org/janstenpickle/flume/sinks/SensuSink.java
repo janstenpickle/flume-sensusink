@@ -96,6 +96,8 @@ public class SensuSink extends AbstractSink implements Configurable {
                     break;
                 }
 
+                LOG.debug(event.toString());
+
                 LOG.debug("Sending serialized event to AMQP");
                 amqpChannel.basicPublish(amqpQueue, amqpRoutingKey, null,
                         sensuEventSerializer.getJsonByteData(event));

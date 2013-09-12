@@ -34,8 +34,8 @@ public class SensuEventSerializer {
     };
 
     public SensuEventSerializer(List<String> handlers, String alertLevel) {
-      this.handlers = handlers;
-      this.alertLevel = alertLevel;
+        this.handlers = handlers;
+        this.alertLevel = alertLevel;
 
     }
 
@@ -53,13 +53,13 @@ public class SensuEventSerializer {
         sensuEvent.put("action", "create");
         sensuEvent.put("occurrences", 1);
 
-        LOG.debug("Sensu event: "+sensuEvent.toJSONString());
+        LOG.debug("Sensu event: " + sensuEvent.toJSONString());
 
         return sensuEvent.toJSONString().getBytes();
     }
 
     private int getStatus(String alertLevel) throws SensuEventSerializationException {
-        switch (AlertLevelEnum.valueOf(alertLevel)){
+        switch (AlertLevelEnum.valueOf(alertLevel)) {
             case CRITICAL:
                 return 2;
             case WARNING:
@@ -90,7 +90,7 @@ public class SensuEventSerializer {
         check.put("status", getStatus(alertLevel));
         check.put("issued", convertTimestamp(headers.get("timeStamp")));
         check.put("executed", convertTimestamp(headers.get("timeStamp")));
-        check.put("name","flume");
+        check.put("name", "flume_" + alertLevel);
         //check.put("duration", 0);
         //check.put("command", "n/a");
         check.put("interval", 1);
@@ -104,12 +104,12 @@ public class SensuEventSerializer {
 
         LOG.debug(headers.toString());
 
-         for (int i=0; i<requiredHeaders.length; i++){
-             String requiredHeader = requiredHeaders[i];
-             if(!headers.containsKey(requiredHeader)) {
-                 throw new SensuEventSerializationException("Flume event headers do not contain required header "+requiredHeader);
-             }
-         }
+        for (int i = 0; i < requiredHeaders.length; i++) {
+            String requiredHeader = requiredHeaders[i];
+            if (!headers.containsKey(requiredHeader)) {
+                throw new SensuEventSerializationException("Flume event headers do not contain required header " + requiredHeader);
+            }
+        }
     }
 
     private String convertTimestamp(String timestamp) {
@@ -118,11 +118,11 @@ public class SensuEventSerializer {
         return String.valueOf(ts);
     }
 
-    private JSONArray listToJsonArray(List<String> list){
+    private JSONArray listToJsonArray(List<String> list) {
 
         JSONArray jsonArray = new JSONArray();
 
-        for (Iterator<String> listIterator = list.iterator(); listIterator.hasNext();){
+        for (Iterator<String> listIterator = list.iterator(); listIterator.hasNext(); ) {
             String listItem = listIterator.next();
 
             jsonArray.add(listItem);
